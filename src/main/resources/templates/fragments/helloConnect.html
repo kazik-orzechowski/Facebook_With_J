@@ -1,0 +1,84 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+
+	<title >Bywalcy</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+
+	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous"/>
+	<link rel="stylesheet" th:href="@{/css/bywalcy.css}" href="../js/bywalcy.css"/>
+
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
+	<script src="https://cdn.jsdelivr.net/npm/jquery-validation@1.17.0/dist/jquery.validate.min.js"></script>
+	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
+	<script th:attr="src=@{/js/bywalcy.js}" src="../js/bywalcy.js"></script>
+
+</head>
+
+<body>
+<script>
+  window.fbAsyncInit = function() {
+    FB.init({
+      appId      : '306746906469019',
+      cookie     : true,
+      xfbml      : true,
+      version    : 'v2.10'
+    });
+      
+    FB.AppEvents.logPageView();   
+      
+  };
+
+  (function(d, s, id){
+     var js, fjs = d.getElementsByTagName(s)[0];
+     if (d.getElementById(id)) {return;}
+     js = d.createElement(s); js.id = id;
+     js.src = "https://connect.facebook.net/en_US/sdk.js";
+     fjs.parentNode.insertBefore(js, fjs);
+   }(document, 'script', 'facebook-jssdk'));
+</script>
+
+
+<div id="wrap">
+    <div class="clear-top">
+
+		<div class="header">
+		    <div th:replace="fragments/header :: headerMain">Header </div>
+		</div>
+		
+    <div class="content-box">		
+			
+<!--	<h3>Witaj, <span th:text="${facebookProfile.name}">Some User</span>!</h3>
+-->
+		<h4>Here is your feed:</h4>
+
+		<div th:each="post:${feed}">
+			<b th:text="${post.from.name}">from</b> wrote:
+			<p th:text="${post.message}">message text</p>
+			<img th:if="${post.picture}" th:src="${post.picture}"/>
+			<hr/>
+		</div>
+				
+  <div
+	  class="fb-like"
+	  data-share="true"
+	  data-width="450"
+	  data-show-faces="true">
+	</div>
+
+	<p><a th:href="@{/place}" th:text="#{place.add}">*</a></p>
+	
+		</div>
+	
+
+	</div>
+</div>
+
+
+<footer class="footer">
+    <div th:replace="fragments/footer :: footer">Footer </div>
+</footer>
+
+</body>
+</html>
+

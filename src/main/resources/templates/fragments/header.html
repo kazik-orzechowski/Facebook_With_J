@@ -1,0 +1,63 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+</head>
+
+<body>
+<div th:fragment="header" th:inline="text">
+
+	<nav class="navbar navbar-inverse" >
+	 	<div class="container-fluid">
+		    <div class="navbar-header">
+		      <a class="navbar-brand" href="#">Face4J</a>
+		    </div>
+		    <ul class="nav navbar-nav navbar-right">
+			      <li th:class="${activeMenuItem == 'home'} ? 'active' : ''" ><a href="#" >Strona domowa</a></li>
+			      <li th:class="${activeMenuItem == 'places'} ? 'active' : ''"><a href="@{/places}">Miejscówki</a></li>
+			      <li><a>Kazik</a></li>
+			      <li><a th:href="@{/logout}">Wyloguj się</a></li>
+		    </ul>
+	  	</div>
+	</nav> 
+</div>
+
+<div th:fragment="headerAdmin" th:inline="text">
+
+	<nav class="navbar navbar-inverse" >
+	  	<div class="container-fluid">
+		    <div class="navbar-header">
+		      <a class="navbar-brand" href="#">Bywalcy</a>
+		    </div>
+		    <ul class="nav navbar-nav navbar-right">
+			      <li th:class="${activeMenuItem == 'home'} ? 'active' : ''" ><a th:href="@{/users/adminPanel}" th:text="#{page.main.admin.menu}">Administrator home</a></li>
+			      <li th:class="${activeMenuItem == 'places'} ? 'active' : ''"><a th:href="@{/places}" th:text="#{place.main.menu}">Sites</a></li>
+			      <li th:class="${activeMenuItem == 'rooms'} ? 'active' : ''"><a th:href="@{/rooms/}" th:text="#{room.main.menu}">Rooms</a></li>
+			
+			      <li th:class="${activeMenuItem == 'series'} ? 'active' : ''"><a th:href="@{/series/{id}/ (id=${session.user.id})}" th:text="#{series.main.menu}">Series</a></li>
+			      <li th:class="${activeMenuItem == 'eventTypes'} ? 'active' : ''"><a th:href="@{/eventTypes}" th:text="#{eventType.main.menu}" >Event types</a></li>
+			      <li th:class="${activeMenuItem == 'events'} ? 'active' : ''"><a th:href="@{/events}" th:text="#{event.main.menu}" >Events</a></li>
+			      <li th:class="${activeMenuItem == 'users'} ? 'active' : ''"><a  th:href="@{/users}" th:text="#{user.main.menu}">Users</a></li>
+			      <li><a th:href="@{/logout}" th:text="#{user.logout}"></a></li>
+		    </ul>
+	  	</div>
+	</nav> 
+</div>
+
+<div th:fragment="headerMain" th:inline="text">
+
+	<nav class="navbar navbar-inverse" >
+	 	<div class="container-fluid">
+		    <div class="navbar-header">
+		      <a class="navbar-brand" th:href="@{/}">Bywalcy</a>
+		    </div>
+		    <ul class="nav navbar-nav navbar-right">
+			      <li><a th:href="@{/register}" >Zarejestruj się</a></li>
+			      <li><a th:href="@{/connect/facebook}" >Zaloguj się</a></li>
+		    </ul>
+	  	</div>
+	</nav> 
+</div>
+
+
+</body>
+</html>
