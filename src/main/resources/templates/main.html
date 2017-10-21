@@ -2,7 +2,7 @@
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
 
-	<title >Connecty</title>
+	<title >Main page</title>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
 
 	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous"/>
@@ -38,7 +38,7 @@ FB.login(function(response) {
 			</div>
 			<div class="container title-box">
 			
-				<h1>Wbijaj na fejsa</h1>
+				<h1 th:text="Witaj + ' ' + ${facebook}"></h1>
 				<h2></h2>
 				<br/>
 				<br/>			
@@ -47,26 +47,9 @@ FB.login(function(response) {
 	
 			<div class="container content-box">
 			
-			<h3>Podłącz się do Facebooka</h3>
-	
-		<div th:if="${login = null}">
-			<form action="/connect" method="GET">
-				<div class="formInfo">
-					<p>Nie jesteś zalogowany do swojego konta na Facebook'u.</p>
-					<p>Kliknij by się zalogować.</p>
-				</div>
-				<p><button type="submit">Zaloguj się do Facebook'a</button></p>
-			</form>
-		</div>
-			<div th:if="${login = 'logged'}">
-							<div class="formInfo">
-							<p>
-							Jesteś zalogowany do Facebook'a.
-							Naciśnij <a th:href="@{/main}">tutaj</a> by wejść na stronę główną.
-						</p>
-						
-			</div>
 			
+	
+	
 			
 		</div>
 		</div>

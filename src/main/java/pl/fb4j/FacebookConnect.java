@@ -32,8 +32,10 @@ public class FacebookConnect {
 	
 	String protect = "protection_of"+ Math.random()*1000 +"my_connection";
 
-	@GetMapping ("/")
+	@GetMapping ("")
 	public String connectToFacebook (Model model) throws FacebookException {
+	
+		
 		
 		return "signin";
 	}
@@ -43,7 +45,11 @@ public class FacebookConnect {
 		
 		System.err.println(myURL);
 		Facebook facebook = GetFacebookInstance(myURL);
-		model.addAttribute("facebook", facebook);
+		if (facebook == null) {
+			return "signin";
+		}
+				
+		model.addAttribute("facebook", facebook.getName());
 		model.addAttribute("login", "logged");
 		return "signin";
 	}
@@ -58,10 +64,10 @@ public class FacebookConnect {
 		Configuration configuration = createConfiguration(callbackURL);
 	    FacebookFactory facebookFactory = new FacebookFactory(configuration );
 	    Facebook facebookClient = facebookFactory.getInstance();
-	//    OAuthSupport oAuthSupport = new OAuthAuthorization(configuration ); 
-	//    accessToken = oAuthSupport.getOAuthAppAccessToken();
-	//    facebookClient.setOAuthAccessToken( accessToken );
-	//    
+	    OAuthSupport oAuthSupport = new OAuthAuthorization(configuration ); 
+	    accessToken = oAuthSupport.getOAuthAppAccessToken();
+	    facebookClient.setOAuthAccessToken( accessToken );
+	    
 	    String reAuthUrl = facebookClient.getOAuthReAuthenticationURL(callbackURL, protect);
 	
 	    return facebookClient;
