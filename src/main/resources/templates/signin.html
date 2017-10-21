@@ -2,7 +2,7 @@
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
 
-	<title >Connecty</title>
+	<title >Connect to fb</title>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
 
 	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous"/>
@@ -50,7 +50,7 @@ FB.login(function(response) {
 			<h3>Podłącz się do Facebooka</h3>
 	
 		<div th:if="${login == null}">
-			<form action="/connect" method="GET">
+			<form action="/connect/connected" method="GET">
 				<div class="formInfo">
 					<p>Nie jesteś zalogowany do swojego konta na Facebook'u.</p>
 					<p>Kliknij by się zalogować.</p>
