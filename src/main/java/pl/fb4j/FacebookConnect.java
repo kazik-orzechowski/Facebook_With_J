@@ -8,6 +8,8 @@ import java.net.URI;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
+import javax.servlet.ServletException;
+
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -42,7 +44,7 @@ public class FacebookConnect {
 		return "signin";
 	}
 	
-	@GetMapping ("/signin")
+	@GetMapping ("/signin1")
 	public String connectedToFacebook (Model model) throws FacebookException {
 		
 		
@@ -60,8 +62,7 @@ public class FacebookConnect {
 			return "signin";
 		}
 		System.err.println(facebook.toString());		
-		model.addAttribute("facebook", facebook.toString());
-		model.addAttribute("login", "logged");
+	
 		SessionedController.session().setAttribute("ExternalURL", 
 				facebook.getOAuthAuthorizationURL(facebook.getOAuthCallbackURL().toString())); 
 		return "redirect:/to-be-redirected" ;
@@ -73,7 +74,26 @@ public class FacebookConnect {
 	    redirectView.setUrl((String) SessionedController.session().getAttribute("ExternalURL"));
 	    return redirectView;
 	}
+
+	@GetMapping ("/signin")
+	public String callBack (Model model) throws FacebookException {
 	
+	 Facebook facebook = (Facebook) SessionedController.session().getAttribute("facebook");
+     String oauthCode = (String) SessionedController.session().getAttribute("code");
+     facebook.getOAuthAccessToken(oauthCode);
+ 	model.addAttribute("facebook", "loged in to facebook");
+	model.addAttribute("login", "logged");
+	return "signin";
+	}
+	
+	@GetMapping ("/main")
+	public String enterMainPage (Model model) throws FacebookException {
+	
+	 Facebook facebook = (Facebook) SessionedController.session().getAttribute("facebook");
+  	model.addAttribute("facebook", facebook.getName());
+	model.addAttribute("login", "logged");
+	return "main";
+	}
 	
 	
 	public Facebook GetFacebookInstance() throws FacebookException {

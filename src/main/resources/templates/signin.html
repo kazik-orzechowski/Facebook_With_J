@@ -50,7 +50,7 @@ FB.login(function(response) {
 			<h3>Podłącz się do Facebooka</h3>
 	
 		<div th:if="${login == 'notLogged'}">
-			<form action="/signin" method="GET">
+			<form action="/signin1" method="GET">
 				<div class="formInfo">
 					<p>Nie jesteś zalogowany do swojego konta na Facebook'u.</p>
 					<p>Kliknij by się zalogować... my dear.<span th:text="${facebook}">*</span></p>
