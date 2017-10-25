@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
+import org.springframework.web.servlet.view.RedirectView;
 
 import facebook4j.Facebook;
 import facebook4j.FacebookException;
@@ -27,22 +28,21 @@ import facebook4j.internal.logging.Logger;
 
 
 @Controller
-@RequestMapping ("connect")
+@RequestMapping ("")
 public class FacebookConnect {
 
 	Logger logger;
 	
 	String protect = "protection_of"+ Math.random()*1000 +"my_connection";
 
-	@GetMapping ("")
+	@GetMapping ("/")
 	public String connectToFacebook (Model model) throws FacebookException {
-	
-		
-		
+		model.addAttribute("facebook", "Guest");
+		model.addAttribute("login", "notLogged");
 		return "signin";
 	}
 	
-	@GetMapping ("/connected")
+	@GetMapping ("/signin")
 	public String connectedToFacebook (Model model) throws FacebookException {
 		
 		
@@ -55,12 +55,23 @@ public class FacebookConnect {
 		
 		Facebook facebook = GetFacebookInstance();
 		if (facebook == null) {
+			model.addAttribute("facebook", "Guest+");
+			model.addAttribute("login", "notLogged");
 			return "signin";
 		}
 		System.err.println(facebook.toString());		
-		model.addAttribute("facebook", facebook.getName());
+		model.addAttribute("facebook", facebook.toString());
 		model.addAttribute("login", "logged");
-		return "signin";
+		SessionedController.session().setAttribute("ExternalURL", 
+				facebook.getOAuthAuthorizationURL(facebook.getOAuthCallbackURL().toString())); 
+		return "redirect:/to-be-redirected" ;
+	}
+	
+	@RequestMapping("/to-be-redirected")
+	public RedirectView localRedirect() {
+	    RedirectView redirectView = new RedirectView();
+	    redirectView.setUrl((String) SessionedController.session().getAttribute("ExternalURL"));
+	    return redirectView;
 	}
 	
 	
@@ -71,7 +82,7 @@ public class FacebookConnect {
 //		String callbackURL =  myUri + "/signup";
 
 		AccessToken  accessToken = null;
-		Configuration configuration = createConfiguration("http://f20b5496.ngrok.io/signin");
+		Configuration configuration = createConfiguration("http://82b394dd.ngrok.io/signin");
 	    FacebookFactory facebookFactory = new FacebookFactory(configuration );
 	    Facebook facebookClient = facebookFactory.getInstance();
 	    OAuthSupport oAuthSupport = new OAuthAuthorization(configuration ); 
@@ -79,7 +90,7 @@ public class FacebookConnect {
 	    
 	    System.err.println("acces token" + accessToken.toString());
 	    facebookClient.setOAuthAccessToken( accessToken );
-	    facebookClient.setOAuthCallbackURL("http://f20b5496.ngrok.io/signin");
+	    facebookClient.setOAuthCallbackURL("http://82b394dd.ngrok.io/signin");
 	    
 	    // thito be used to extend session duration
 //	    String reAuthUrl = facebookClient.getOAuthReAuthenticationURL("http://f20b5496.ngrok.io/signin", protect);
@@ -88,6 +99,8 @@ public class FacebookConnect {
 	    
 		}
 
+	
+	
 	public Configuration createConfiguration(String callbackURL) {
         ConfigurationBuilder configurationBuilder  = new ConfigurationBuilder();	
 	
